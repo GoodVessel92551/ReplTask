@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <title>ReplTask</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "icon" href = "static/logo.png" type = "image/x-icon">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+        <link href="{{ url_for('static',filename='main.css')}}" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    </head>
+    <body>
+        <div class="sidebar">
+            <a class="name" style="font-size:14px;" id="name">Name</a>
+            <a class="make" href="/new">Create A Task</a>
+            <a style="top:80px;" class="app" href="/home">Home</a>
+            <a style="top:120px;background:var(--color);filter:brightness(85%);" class="app" href="/tasks">Tasks</a>
+            <a style="top:160px;" class="app" href="/about">About</a>
+            <a style="top:200px;" class="app" href="https://replit.com/">Replit</a>
+            <a style="top:240px;" class="app" href="__repl">Like</a>
+            <a style="top:280px;" class="app" href="https://replit.com/@GoodVessel92551">Follow Me</a>
+            <span class="bug icon" herf="/bug">bug_report</span>
+        </div>
+        <div class="top">
+            <input type="text" class="search" placeholder="Search Tasks">
+        </div>
+        <div class="home1">
+        <div class="makenew">
+            <h2 style="float:left;margin-left:30px;">Make A Task</h2>
+            <input type="text" placeholder="Title" id="title" class="textitle">
+            <textarea class="desc" placeholder="Description"></textarea>
+            <input class="cancel" value="Cancel" type="button">
+            <input class="save" value="Save" type="submit">
+        </div>
+        </div>
+        <script>
+            name = {{name|tojson}};
+            document.getElementById("name").innerText = "@"+name
+        </script>
+    </body>
+</html>
