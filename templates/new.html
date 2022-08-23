@@ -15,6 +15,7 @@
     </head>
     <body>
         <div class="sidebar">
+            <img src="static/logo.png" id="logo" class="logo" onclick="document.getElementById('image').showModal()">
             <a class="name" style="font-size:14px;" id="name">Name</a>
             <a class="make" href="/new">Create A Task</a>
             <a style="top:80px;" class="app" href="/home">Home</a>
@@ -26,19 +27,33 @@
             <span class="bug icon" herf="/bug">bug_report</span>
         </div>
         <div class="top">
-            <input type="text" class="search" placeholder="Search Tasks">
+            <form method="get" action="/search">
+                <input type="text" name="search" class="search" placeholder="Search Tasks">
+            </form>
         </div>
         <div class="home1">
         <div class="makenew">
             <h2 style="float:left;margin-left:30px;">Make A Task</h2>
-            <input type="text" placeholder="Title" id="title" class="textitle">
-            <textarea class="desc" placeholder="Description"></textarea>
-            <input class="cancel" value="Cancel" type="button">
+            <form method="post">
+            <input type="text" name="title" placeholder="Title" id="title" class="textitle">
+            <textarea class="desc" name="desc" placeholder="Description"></textarea>
+            <input class="cancel" value="Cancel" onclick="window.open('/home','_self')" type="button">
             <input class="save" value="Save" type="submit">
+            </form>
         </div>
         </div>
+        <dialog id="image" class="image">
+            <h2 style="float:left;margin-left:30px;">Chose a Profile Picture</h2>
+            <form method="post">
+            <input type="url" name="url" placeholder="Enter A URL" id="edittitle" class="textitle">
+            <input class="cancel" value="Cancel" onclick="document.getElementById('image').close()" type="button">
+            <input class="save" value="Save" type="submit">
+            </form>
+        </dialog>
         <script>
             name = {{name|tojson}};
+            url = {{url|tojson}};
+            document.getElementById("logo").src = url
             document.getElementById("name").innerText = "@"+name
         </script>
     </body>

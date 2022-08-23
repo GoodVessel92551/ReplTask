@@ -15,7 +15,7 @@
     </head>
     <body>
         <div class="sidebar">
-            <img src="static/logo.png" class="logo">
+            <img src="static/logo.png" id="logo" class="logo" onclick="document.getElementById('image').showModal()">
             <a class="name" style="font-size:14px;" id="name">Name</a>
             <a class="make" href="/new">Create A Task</a>
             <a style="top:80px;background:var(--color);filter:brightness(85%);" class="app" href="/home">Home</a>
@@ -27,7 +27,9 @@
             <span class="bug icon" herf="/bug">bug_report</span>
         </div>
         <div class="top">
-            <input type="text" class="search" placeholder="Search Tasks">
+            <form method="get" action="/search">
+                <input type="text" name="search" class="search" placeholder="Search Tasks">
+            </form>
         </div>
         <div class="home1">
         <div class="home">
@@ -38,16 +40,32 @@
         </div>
         <dialog class="showbig" id="showit">
             <span class="close icon" onclick="document.getElementById('showit').close()">close</span>
-            <span class="icon delete" onclick="remove()" id="remove">delete</span>
-            <span class="icon edit">edit</span>
+            <span class="icon delete" onclick="document.getElementById('delmode').showModal()" id="remove">delete</span>
+            <span class="icon edit" onclick="edit()">edit</span>
             <div class="about">
                 <h2 id="titlemod"></h2>
                 <p id="descmod"></p>
             </div>
         </dialog>
+        <dialog class="delmod" id="delmode">
+            <b style="font-size:30px;">Are You Sure</b><br>
+            <b>Are you sure that you want to delete this task.</b>
+            <button class="cancel2" onclick="document.getElementById('delmode').close()">Cancel</button>
+            <button class="del" onclick="remove()">Delete</button>
+        </dialog>
+        <dialog id="image" class="image">
+            <h2 style="float:left;margin-left:30px;">Chose a Profile Picture</h2>
+            <form method="post">
+            <input type="url" name="url" placeholder="Enter A URL" id="edittitle" class="textitle">
+            <input class="cancel" value="Cancel" onclick="document.getElementById('image').close()" type="button">
+            <input class="save" value="Save" type="submit">
+            </form>
+        </dialog>
         <script>
             name = {{name|tojson}};
             tasks = {{tasks|tojson}};
+            url = {{url|tojson}};
+            document.getElementById("logo").src = url
             var id
             for (var i = 0;i<tasks.length;i++){
                 document.getElementById("tasks").innerHTML += '<a onclick="openit('+i+++')"><b>'+tasks[i++]+'</b><br><p>'+tasks[i++]+'</p></a>'
@@ -55,6 +73,7 @@
             }
             function openit(a) {
                 id = tasks[a]
+                console.log(id)
                 document.getElementById("titlemod").innerText = tasks[a+1]
                 document.getElementById("descmod").innerText = tasks[a+2]
                 document.getElementById("showit").showModal()
@@ -62,7 +81,11 @@
             function remove() {
                 window.open("/remove?id="+id,"_self")
             }
+            function edit() {
+                window.open("/edit?id="+id,"_self")
+            }
             document.getElementById("name").innerText = "@"+name
+            document.getElementById("name").href = "https://replit.com/@"+name
         </script>
     </body>
 </html>

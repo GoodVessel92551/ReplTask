@@ -103,12 +103,13 @@ body{
 
 .name{
     top:12px;
-    left:50px;
+    left:55px;
     color:var(--light);
     height:32px;
     width:210px;
     position:absolute;
     display:block;
+    text-decoration:none;
 }
 
 .bell{
@@ -296,6 +297,7 @@ body{
     color:var(--light);
     transition:.2s all;
     resize:none;
+    padding-top:2px;
 }
 .desc:hover{
     border:1px solid var(--hover-border);
@@ -306,7 +308,7 @@ body{
 }
 .save{
     border-radius:5px;
-    position:fixed;
+    position:absolute;
     background:var(--color);
     border:none;
     bottom:10px;
@@ -326,7 +328,7 @@ body{
 
 .cancel{
     border-radius:5px;
-    position:fixed;
+    position:absolute;
     background:var(--hover);
     border:none;
     bottom:10px;
@@ -427,6 +429,7 @@ body{
 }
 
 .logo{
+    cursor:pointer;
     height:25px;
     width:25px;
     position:absolute;
@@ -436,5 +439,84 @@ body{
     border:1px solid var(--border2);
     background:var(--hover);
     border-radius:14.5px;
+}
+
+.delmod{
+    color:var(--light);
+    height:150px;
+    width:350px;
+    background:var(--dark);
+    border:1px solid var(--border2);
+    border-radius:5px;
+    box-shadow: 2px 2px 10px black;
+}
+
+.delmod::backdrop{
+    background:#0d0d0d;
+    opacity:.6;
+    color:var(--light);
+}
+
+.del{
+    border-radius:5px;
+    position:absolute;
+    background:#a60808;
+    border:none;
+    bottom:10px;
+    right:10px;
+    color:var(--light);
+    height:32px;
+    width:70px;
+    cursor:pointer;
+    transition:.2s all;
+    border:1px solid #a60808;
+    user-select:none;
+}
+
+.del:hover{
+    border:1px solid #E52222;
+}
+
+.cancel2{
+    border-radius:5px;
+    position:absolute;
+    background:var(--hover);
+    border:none;
+    bottom:10px;
+    right:90px;
+    color:var(--light);
+    height:32px;
+    width:70px;
+    cursor:pointer;
+    transition:.2s all;
+    border:1px solid var(--hover);
+    user-select:none;
+}
+
+.cancel2:hover{
+    border:1px solid var(--border2)
+}
+
+.cancel2:focus{
+    outline:none;
+    border:1px solid var(--border2)
+}
+
+.image{
+    color:var(--light);
+    border-radius:5px;
+    text-align:center;
+    background:var(--dark);
+    border:1px solid var(--border2);
+    width:400px;
+    height:190px;
+    min-height:200px;
+    box-shadow: 2px 2px 10px black;
+}
+
+.image::backdrop{
+    background:#0d0d0d;
+    opacity:.6;
+    color:var(--light);
 }
     
