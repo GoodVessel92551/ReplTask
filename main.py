@@ -1,4 +1,5 @@
 from better_profanity import profanity
+import re
 from flask import Flask, render_template, redirect, request, current_app
 from replit import web, db
 app = Flask(__name__)
@@ -33,15 +34,17 @@ def tasks():
 @web.authenticated(login_res="<script>window.open('/','_self')</script>")
 def new():
     if request.method == "POST":
+        if len(users.current["tasks"])%3 > 20:
+            return "You have reached your max amount of task remove some so you can make more"
         users.current["id"]=users.current["id"]+1
         new_tasks = users.current["tasks"]
         title = profanity.censor(request.form["title"],censor_char="🤬")
         desc = profanity.censor(request.form["desc"],censor_char="🤬")
-        if len(title) > 75 or len(desc) > 500:
-            return "You Title or Description is to long"
+        if len(title) > 75 or len(desc) > 500 or len(title) == 0 or len(desc) == 0:
+            return "You Title or Description is to long or short"
         new_tasks.append(users.current["id"])
-        new_tasks.append(title)
-        new_tasks.append(desc)
+        new_tasks.append(re.sub("<.*?>","",title))
+        new_tasks.append(re.sub("<.*?>","",desc))
         if len(new_tasks)%3 == 0:
             users.current["tasks"] = new_tasks
             return redirect("/home")
@@ -58,13 +61,22 @@ def about():
 @app.route("/search", methods=["POST", "GET"])
 @web.authenticated(login_res="<script>window.open('/','_self')</script>")
 def search():
-    what_search = request.args.get("search")
+    what_search = request.args.get("search").lower()
     if what_search == "home":
         return redirect("/home")
-    elif "task" in what_search:
-        return redirect("/tasks")
     elif "make" in what_search or "new" in what_search:
         return redirect("/new")
+    elif "about" in what_search:
+        return redirect("/about")
+    elif "replit" in what_search:
+        return redirect("https://replit.com/")
+    elif "like" in what_search:
+        return redirect("/__repl")
+    elif "follow" in what_search:
+        return redirect("https://replit.com/@GoodVessel92551")
+    elif what_search == "remove all":
+        users.current["tasks"] = []
+        return redirect("/home")
     return redirect("/home")
 
 @app.route('/edit' , methods=["POST", "GET"])
@@ -76,12 +88,12 @@ def edit():
         new_tasks = users.current["tasks"]
         title = profanity.censor(request.form["title"],censor_char="🤬")
         desc = profanity.censor(request.form["desc"],censor_char="🤬")
-        if len(title) > 75 or len(desc) > 500:
-            return "You Title or Description is to long"
+        if len(title) > 75 or len(desc) > 500 or len(title) == 0 or len(desc) == 0:
+            return "You Title or Description is to long or short"
         for i in range(len(new_tasks)):
             if int(id) == new_tasks[i]:
-                new_tasks[i+1] = title
-                new_tasks[i+2] = desc
+                new_tasks[i+1] = re.sub("<.*?>","",title)
+                new_tasks[i+2] = re.sub("<.*?>","",desc)
                 break
         if len(new_tasks)%3 == 0:
             users.current["tasks"] = new_tasks
@@ -117,4 +129,4 @@ def remove():
         return "something went wrong"
 
     
-app.run(host='0.0.0.0', port=81,debug=True)
+app.run(host='0.0.0.0', port=81,debug=False)

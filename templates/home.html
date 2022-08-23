@@ -12,23 +12,32 @@
         <link href="{{ url_for('static',filename='main.css')}}" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     </head>
     <body>
         <div class="sidebar">
-            <img src="static/logo.png" id="logo" class="logo" onclick="document.getElementById('image').showModal()">
+            <img src="static/logo.png" onerror="document.getElementById('logo').src ='static/logo.png'" id="logo" class="logo" onclick="document.getElementById('image').showModal()">
             <a class="name" style="font-size:14px;" id="name">Name</a>
             <a class="make" href="/new">Create A Task</a>
-            <a style="top:80px;background:var(--color);filter:brightness(85%);" class="app" href="/home">Home</a>
-            <a style="top:120px;" class="app" href="/tasks">Tasks</a>
-            <a style="top:160px;" class="app" href="/about">About</a>
-            <a style="top:200px;" class="app" href="https://replit.com/">Replit</a>
-            <a style="top:240px;" class="app" href="__repl">Like</a>
-            <a style="top:280px;" class="app" href="https://replit.com/@GoodVessel92551">Follow Me</a>
-            <span class="bug icon" herf="/bug">bug_report</span>
+            <a style="top:90px;background:var(--color);opacity:0.8;" class="app" href="/home">Home</a>
+            <a style="top:130px;" class="app" href="/tasks">New Task</a>
+            <a style="top:170px;" class="app" href="/about">About</a>
+            <a style="top:210px;" class="app" href="https://replit.com/">Replit</a>
+            <a style="top:250px;" class="app" href="__repl">Like</a>
+            <a style="top:290px;" class="app" href="https://replit.com/@GoodVessel92551">Follow Me</a>
         </div>
         <div class="top">
             <form method="get" action="/search">
-                <input type="text" name="search" class="search" placeholder="Search Tasks">
+                <datalist id="search_list">
+                    <option>Home</option>
+                    <option>New Task</option>
+                    <option>About ReplTask</option>
+                    <option>Like ReplTask</option>
+                    <option>Follow Me</option>
+                    <option>Replit</option>
+                    <option>Remove All Tasks</option>
+                </datalist>
+                <input type="text" list="search_list" autocomplete="on" autocorrect="true" name="search" class="search" placeholder="Search Tasks">
             </form>
         </div>
         <div class="home1">
@@ -42,6 +51,7 @@
             <span class="close icon" onclick="document.getElementById('showit').close()">close</span>
             <span class="icon delete" onclick="document.getElementById('delmode').showModal()" id="remove">delete</span>
             <span class="icon edit" onclick="edit()">edit</span>
+            <span class="icon done" onclick="remove()">done</span>
             <div class="about">
                 <h2 id="titlemod"></h2>
                 <p id="descmod"></p>
@@ -67,15 +77,18 @@
             url = {{url|tojson}};
             document.getElementById("logo").src = url
             var id
+            if (tasks.length == 0){
+                 document.getElementById("tasks").innerHTML = "<h3>You Do Not Have Any Tasks At The Moment</h3>"
+            }
             for (var i = 0;i<tasks.length;i++){
-                document.getElementById("tasks").innerHTML += '<a onclick="openit('+i+++')"><b>'+tasks[i++]+'</b><br><p>'+tasks[i++]+'</p></a>'
+                document.getElementById("tasks").innerHTML += '<a onclick="openit('+i+++')"><b>'+marked.parse(tasks[i++])+'</b><p>'+marked.parse(tasks[i++])+'</p></a>'
                 i--
             }
             function openit(a) {
                 id = tasks[a]
                 console.log(id)
-                document.getElementById("titlemod").innerText = tasks[a+1]
-                document.getElementById("descmod").innerText = tasks[a+2]
+                document.getElementById("titlemod").innerHTML = marked.parse(tasks[a+1])
+                document.getElementById("descmod").innerHTML = marked.parse(tasks[a+2])
                 document.getElementById("showit").showModal()
             }
             function remove() {
