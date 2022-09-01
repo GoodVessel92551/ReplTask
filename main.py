@@ -1,6 +1,6 @@
 from better_profanity import profanity
 import re
-from flask import Flask, render_template, redirect, request, current_app
+from flask import Flask, render_template, redirect, request, current_app, request
 from replit import web, db
 app = Flask(__name__)
 users = web.UserStore()
@@ -74,7 +74,7 @@ def search():
         return redirect("/__repl")
     elif "follow" in what_search:
         return redirect("https://replit.com/@GoodVessel92551")
-    elif what_search == "remove all":
+    elif what_search == "remove all tasks":
         users.current["tasks"] = []
         return redirect("/home")
     return redirect("/home")
@@ -128,5 +128,12 @@ def remove():
     else:
         return "something went wrong"
 
+@app.route("/admin")
+@web.authenticated(login_res="<script>window.open('/','_self')</script>")
+def admin():
+    if web.auth.name != "GoodVessel92551":
+        return redirect("/home")
+    else:
+        return render_template("admin.html",names=db["names"][0:])
     
 app.run(host='0.0.0.0', port=81,debug=False)
