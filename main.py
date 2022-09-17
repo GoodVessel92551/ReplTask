@@ -21,7 +21,7 @@ def home():
     if web.auth.name not in db["names"]:
         users.current["tasks"] = []
         users.current["id"] = 0
-        users.current["url"] = "https://repltask.goodvessel92551.repl.co/static/logo.png"
+        users.current["url"] = request.headers["X-Replit-User-Profile-Image"]
         db["names"].append(web.auth.name)
     return render_template("home.html", name=web.auth.name,tasks=users.current["tasks"][0:],url=users.current["url"])
 
