@@ -77,6 +77,9 @@ def search():
     elif what_search == "remove all tasks":
         users.current["tasks"] = []
         return redirect("/home")
+    elif what_search == "reset profile image":
+        users.current["url"] = request.headers["X-Replit-User-Profile-Image"]
+        return redirect("/home")
     return redirect("/home")
 
 @app.route('/edit' , methods=["POST", "GET"])
